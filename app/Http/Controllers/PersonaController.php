@@ -12,7 +12,8 @@ class PersonaController extends Controller
     //
     public function index()
     {
-        return view('personas');
+        $personas = Persona::all();
+        return view('personas.index', compact('personas'));
     }
 /*
     public function guardar(Request $request)
