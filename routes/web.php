@@ -10,5 +10,11 @@ Route::get('/vista', function () {
 
 use App\Http\Controllers\PersonaController;
 
-Route::get('/personas',[PersonaController::class, 'index']);
-Route::post('/guardar',[PersonaController::class, 'guardar']);
+//Mostrar formulario
+Route::get('/personas.create', [PersonaController::class, 'create'])->name('personas.create');
+
+//Mostrar listado
+Route::get('/personas',[PersonaController::class, 'index'])->name('personas.index');
+
+//Guardar datos
+Route::post('/personas',[PersonaController::class, 'store'])->name('personas.guardar');
