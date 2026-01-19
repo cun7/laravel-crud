@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class PersonaController extends Controller
 {
-    //Muestra el formulario
+    //Muestra el formulario cear
     public function create(){
         //Retorna la vista del formulario
         return view('personas.create');
@@ -30,8 +30,43 @@ class PersonaController extends Controller
             'edad' => $request->edad
         ]);
 
+        //Persona::create($request->all);//INSERT
+
         //Redirige al listado
         //return redirect('/personas');
+        return redirect()->route('personas.index');
+    }
+
+    //Formulario editar
+    public function edit($id){
+        //Busca la persona por ID
+        $persona = Persona::findOrFail($id);
+        //Envía la persona a la vista
+        return view('personas.edit', compact('persona'));
+    }
+
+    //Actualizar
+    public function update(Request $request, $id){
+        //Validar campos que no esten vacíos
+        $request->validate([
+            'nombre' => 'required',
+            'edad'   => 'required|integer'
+        ]);
+
+        $persona = Persona::findOrFail($id);
+
+        //UPDATE persona SET 
+        $persona->update($request->all());
+        
+        return redirect()->route('personas.index');
+    }
+
+    //Eliminar
+    public function destroy($id){
+        $persona = Persona::FindOrFail($id);
+        //DELETE FROM personas
+        $persona->delete();
+
         return redirect()->route('personas.index');
     }
 
@@ -39,6 +74,7 @@ class PersonaController extends Controller
     public function index()
     {   
         //Obtiene todos los registros
+        //SELECT / FROM personas
         $personas = Persona::all();
 
         //Envia los datos a la vista

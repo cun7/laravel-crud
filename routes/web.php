@@ -10,7 +10,7 @@ Route::get('/vista', function () {
 
 use App\Http\Controllers\PersonaController;
 
-//Mostrar formulario
+//Mostrar formulario crear
 Route::get('/personas.create', [PersonaController::class, 'create'])->name('personas.create');
 
 //Mostrar listado
@@ -18,3 +18,12 @@ Route::get('/personas',[PersonaController::class, 'index'])->name('personas.inde
 
 //Guardar datos
 Route::post('/personas',[PersonaController::class, 'store'])->name('personas.guardar');
+
+//Formulario editar
+Route::get('/personas/{id}/edit', [PersonaController::class, 'edit'])->name('personas.edit');
+
+//Actualizar
+Route::put('/personas/{id}', [PersonaController::class, 'update'])->name('personas.actualizar');
+
+//Eliminar
+Route::delete('/personas/{id}', [PersonaController::class, 'destroy'])->name('personas.eliminar');
