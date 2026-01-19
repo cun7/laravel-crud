@@ -1,5 +1,12 @@
 <h1>Lista de Personas</h1>
 
+{{--Mensaje de éxito--}}
+@if(session('success'))
+    <p style="color: green;">
+        {{ session('success')}}
+    </p>
+@endif
+
 {{--Botón para ir al formualrio--}}
 <a href="{{route('personas.create')}}">Nueva persona</a>
 

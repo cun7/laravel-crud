@@ -1,5 +1,16 @@
 <h1>Registrar persona</h1>
 
+{{--Mostrar errores--}}
+@if($errors->any())
+    <div style="color: red;">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{$error}}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 {{--Formulario que envía datos por POST--}}
 <form action="{{route('personas.guardar')}}" method="POST">
     {{--Protección contra ataques CSRF--}}
@@ -7,11 +18,11 @@
 
     {{--Campo nombre--}}
     <label>Nombre:</label><br>
-    <input type="text" name="nombre"><br><br>
+    <input type="text" name="nombre" value="{{ old('nombre') }}"><br><br>
 
     {{--Campo edad--}}
     <label>Edad:</label><br>
-    <input type="number" name="edad"><br><br>
+    <input type="number" name="edad" value="{{ old('edad') }}"><br><br>
 
     <button type="submit">Guardar</button>
 </form>

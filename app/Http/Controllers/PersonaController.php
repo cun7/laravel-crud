@@ -20,8 +20,8 @@ class PersonaController extends Controller
 
         //Validación básica
         $request->validate([
-            'nombre' => 'required',
-            'edad'   => 'required|integer'
+            'nombre' => 'required|min:3',
+            'edad'   => 'required|integer|min:1'
         ]);
 
         //Inserta los datos en la tabla personas
@@ -34,7 +34,7 @@ class PersonaController extends Controller
 
         //Redirige al listado
         //return redirect('/personas');
-        return redirect()->route('personas.index');
+        return redirect()->route('personas.index')->with('success', 'Persona registrada correctamente');//Mensaje flash (vive solo una petición)
     }
 
     //Formulario editar
@@ -49,8 +49,8 @@ class PersonaController extends Controller
     public function update(Request $request, $id){
         //Validar campos que no esten vacíos
         $request->validate([
-            'nombre' => 'required',
-            'edad'   => 'required|integer'
+            'nombre' => 'required|min:3',
+            'edad'   => 'required|integer:min:1'
         ]);
 
         $persona = Persona::findOrFail($id);
@@ -58,7 +58,7 @@ class PersonaController extends Controller
         //UPDATE persona SET 
         $persona->update($request->all());
         
-        return redirect()->route('personas.index');
+        return redirect()->route('personas.index')->with('success', 'Persona actualizada correctamente');
     }
 
     //Eliminar
@@ -67,7 +67,7 @@ class PersonaController extends Controller
         //DELETE FROM personas
         $persona->delete();
 
-        return redirect()->route('personas.index');
+        return redirect()->route('personas.index')->with('success', 'Persona eliminada correctamente');
     }
 
     //Lista la personas
