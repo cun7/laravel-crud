@@ -37,15 +37,16 @@ class PersonaController extends Controller
         return redirect()->route('personas.index')->with('success', 'Persona registrada correctamente');//Mensaje flash (vive solo una petición)
     }
 
-    //Formulario editar
+    //Mostrar formulario  de edición
     public function edit($id){
         //Busca la persona por ID
         $persona = Persona::findOrFail($id);
-        //Envía la persona a la vista
+
+        //Envía la persona encontrada a la vista
         return view('personas.edit', compact('persona'));
     }
 
-    //Actualizar
+    //Actualizar datos en la base de datos
     public function update(Request $request, $id){
         //Validar campos que no esten vacíos
         $request->validate([
