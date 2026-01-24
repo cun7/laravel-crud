@@ -42,7 +42,7 @@
             <a href="{{ route('personas.edit', $persona->id) }}">Editar</a>
 
             {{--Fromulario eliminar--}}
-            <form action="{{ route('personas.eliminar', $persona->id) }}" method="POST" style="display:inline">
+            <form action="{{ route('personas.eliminar', $persona->id) }}" method="POST" style="display:inline" onsubmit="return confirm('¿Seguro que desea elimimar esta persona?')">
                 @csrf
                 @method('DELETE')
                 <button type="submit">Eliminar</button>
@@ -63,22 +63,22 @@
 
 {{-- Crear paginación manual --}}
 @if($personas->hasPages())
-    <div style="margin-top:10px;">
-        {{-- Botón anterior --}}
-        @if($personas->onfirstPage())
-            <span>Anterior</span>
-            @else
-                <a href="{{ $personas->previousPageUrl() }}">Anterior</a>
-        @endif
+<div style="margin-top:10px;">
+    {{-- Botón anterior --}}
+    @if($personas->onfirstPage())
+    <span>Anterior</span>
+    @else
+    <a href="{{ $personas->previousPageUrl() }}">Anterior</a>
+    @endif
 
-        |
+    |
 
-        {{-- Botón siguiente --}}
-        @if($personas->hasMorePages())
-            <a href="{{ $personas->nextPageUrl() }}">Siguiente</a>
-        @else
-            <span>Siguiente</span>
-        @endif
-    </div>
+    {{-- Botón siguiente --}}
+    @if($personas->hasMorePages())
+    <a href="{{ $personas->nextPageUrl() }}">Siguiente</a>
+    @else
+    <span>Siguiente</span>
+    @endif
+</div>
 
 @endif()
