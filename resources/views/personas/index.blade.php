@@ -23,7 +23,7 @@
 {{--Botón para ir al formualrio--}}
 <a href="{{route('personas.create')}}">Nueva persona</a>
 
-<table border="1">
+<table border="1" cellpadding="5">
     <tr>
         <th>ID</th>
         <th>Nombre</th>

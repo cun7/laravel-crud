@@ -81,8 +81,9 @@ class PersonaController extends Controller
         $direction = $request->get('direction', 'asc');
 
         //Consulta con orden dinámico
-        $personas = Persona::orderBy($orderBy, $direction)->simplePaginate(5)->appends($request->all());
+        $personas = Persona::orderBy($orderBy, $direction)->Paginate(5)->appends($request->all());
 
+        //Obtenemos las personas ordenadas por nombre (A -> Z)
         //Obtiene 5 personas por página
         //$personas = Persona::orderBy('id','desc')->paginate(10);
       
