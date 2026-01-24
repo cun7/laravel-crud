@@ -1,29 +1,20 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/vista', function () {
-    //return view('welcome');
-    //return "Hola desde laravel";
-    return view("hola");
+Route::get('/', function () {
+    return view('welcome');
 });
 
-use App\Http\Controllers\PersonaController;
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-//Ruta para mostrar listado de personas
-Route::get('/personas',[PersonaController::class, 'index'])->name('personas.index');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-//Ruta para mostrar formulario crear
-Route::get('/personas.create', [PersonaController::class, 'create'])->name('personas.create');
-
-//Ruta para guardar datos de la persona
-Route::post('/personas',[PersonaController::class, 'store'])->name('personas.guardar');
-
-//Ruta para mostrar formulario de edicción
-Route::get('/personas/{id}/edit', [PersonaController::class, 'edit'])->name('personas.edit');
-
-//Ruta para ctualizar (gurdar cambios)
-Route::put('/personas/{id}', [PersonaController::class, 'update'])->name('personas.actualizar');
-
-//Ruta para eliminar
-Route::delete('/personas/{id}', [PersonaController::class, 'destroy'])->name('personas.eliminar');
+require __DIR__.'/auth.php';
