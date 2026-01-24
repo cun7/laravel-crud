@@ -9,6 +9,31 @@ use Illuminate\Http\Request;
 
 class PersonaController extends Controller
 {
+        //Lista la personas
+        public function index(Request $request)
+        {   
+            //Campo por el cual ordenar
+            $orderBy = $request->get('order_by', 'id');
+    
+            //Dirección del orden
+            $direction = $request->get('direction', 'asc');
+    
+            //Consulta con orden dinámico
+            $personas = Persona::orderBy($orderBy, $direction)->Paginate(5)->appends($request->all());
+    
+            //Obtenemos las personas ordenadas por nombre (A -> Z)
+            //Obtiene 5 personas por página
+            //$personas = Persona::orderBy('id','desc')->paginate(10);
+          
+            //Obtiene todos los registros
+            //SELECT / FROM personas
+            //$personas = Persona::all();
+    
+            //Envia los datos a la vista
+            return view('personas.index', compact('personas'));
+        }
+
+
     //Muestra el formulario cear
     public function create(){
         //Retorna la vista del formulario
@@ -49,6 +74,7 @@ class PersonaController extends Controller
     //Actualizar datos en la base de datos
     public function update(Request $request, $id){
         //Validar campos que no esten vacíos
+        //Valida los datos enviados desde el formulario
         $request->validate([
             'nombre' => 'required|min:3',
             'edad'   => 'required|integer:min:1'
@@ -57,8 +83,17 @@ class PersonaController extends Controller
         $persona = Persona::findOrFail($id);
 
         //UPDATE persona SET 
+        //Guarda los cambios en la base de datos
         $persona->update($request->all());
-        
+
+        //Actualizamos los datos
+       /* $persona->update([
+            'nombre' => $request->nombre,
+            'edad'   => $request->edad
+
+        ]);
+        */
+        //Mensaje flash (vive solo unapetición)
         return redirect()->route('personas.index')->with('success', 'Persona actualizada correctamente');
     }
 
@@ -71,29 +106,6 @@ class PersonaController extends Controller
         return redirect()->route('personas.index')->with('success', 'Persona eliminada correctamente');
     }
 
-    //Lista la personas
-    public function index(Request $request)
-    {   
-        //Campo por el cual ordenar
-        $orderBy = $request->get('order_by', 'id');
-
-        //Dirección del orden
-        $direction = $request->get('direction', 'asc');
-
-        //Consulta con orden dinámico
-        $personas = Persona::orderBy($orderBy, $direction)->Paginate(5)->appends($request->all());
-
-        //Obtenemos las personas ordenadas por nombre (A -> Z)
-        //Obtiene 5 personas por página
-        //$personas = Persona::orderBy('id','desc')->paginate(10);
-      
-        //Obtiene todos los registros
-        //SELECT / FROM personas
-        //$personas = Persona::all();
-
-        //Envia los datos a la vista
-        return view('personas.index', compact('personas'));
-    }
 
 /*
     public function guardar(Request $request)
@@ -104,6 +116,5 @@ class PersonaController extends Controller
         return "Nombre: $nombre - Edad: $edad";
     }
 */
-
 
 }

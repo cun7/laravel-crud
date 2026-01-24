@@ -10,14 +10,14 @@ Route::get('/vista', function () {
 
 use App\Http\Controllers\PersonaController;
 
+//Ruta para mostrar listado de personas
+Route::get('/personas',[PersonaController::class, 'index'])->name('personas.index');
+
 //Ruta para mostrar formulario crear
 Route::get('/personas.create', [PersonaController::class, 'create'])->name('personas.create');
 
 //Ruta para guardar datos de la persona
 Route::post('/personas',[PersonaController::class, 'store'])->name('personas.guardar');
-
-//Ruta para mostrar listado de personas
-Route::get('/personas',[PersonaController::class, 'index'])->name('personas.index');
 
 //Ruta para mostrar formulario de edicción
 Route::get('/personas/{id}/edit', [PersonaController::class, 'edit'])->name('personas.edit');
