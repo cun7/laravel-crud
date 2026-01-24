@@ -2,10 +2,23 @@
 
 {{--Mensaje de éxito--}}
 @if(session('success'))
-    <p style="color: green;">
-        {{ session('success')}}
-    </p>
+<p style="color: green;">
+    {{ session('success')}}
+</p>
 @endif
+
+<style>
+    .pagination {
+        list-style: none;
+        display: flex;
+        gap: 5px;
+    }
+
+    .pagination li {
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+    }
+</style>
 
 {{--Botón para ir al formualrio--}}
 <a href="{{route('personas.create')}}">Nueva persona</a>
@@ -39,3 +52,33 @@
     </tr>
     @endforeach
 </table>
+
+<a href="?order_by=nombre&direction=asc">Nombre ↑</a> |
+<a href="?order_by=nombre&direction=desc">Nombre ↓</a> |
+<a href="?order_by=edad&direction=asc">Edad ↑</a> |
+<a href="?order_by=edad&direction=desc">Edad ↓</a>
+
+{{--Links de paginación--}}
+{{ $personas->links() }}
+
+{{-- Crear paginación manual --}}
+@if($personas->hasPages())
+    <div style="margin-top:10px;">
+        {{-- Botón anterior --}}
+        @if($personas->onfirstPage())
+            <span>Anterior</span>
+            @else
+                <a href="{{ $personas->previousPageUrl() }}">Anterior</a>
+        @endif
+
+        |
+
+        {{-- Botón siguiente --}}
+        @if($personas->hasMorePages())
+            <a href="{{ $personas->nextPageUrl() }}">Siguiente</a>
+        @else
+            <span>Siguiente</span>
+        @endif
+    </div>
+
+@endif()

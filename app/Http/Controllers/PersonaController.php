@@ -71,11 +71,23 @@ class PersonaController extends Controller
     }
 
     //Lista la personas
-    public function index()
+    public function index(Request $request)
     {   
+        //Campo por el cual ordenar
+        $orderBy = $request->get('order_by', 'id');
+
+        //Dirección del orden
+        $direction = $request->get('direction', 'asc');
+
+        //Consulta con orden dinámico
+        $personas = Persona::orderBy($orderBy, $direction)->simplePaginate(5)->appends($request->all());
+
+        //Obtiene 5 personas por página
+        //$personas = Persona::orderBy('id','desc')->paginate(10);
+      
         //Obtiene todos los registros
         //SELECT / FROM personas
-        $personas = Persona::all();
+        //$personas = Persona::all();
 
         //Envia los datos a la vista
         return view('personas.index', compact('personas'));
