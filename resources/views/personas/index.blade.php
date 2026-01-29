@@ -42,11 +42,13 @@
             <a href="{{ route('personas.edit', $persona->id) }}">Editar</a>
 
             {{--Fromulario eliminar--}}
+            @if(Auth::user()->isAdmin())
             <form action="{{ route('personas.eliminar', $persona->id) }}" method="POST" style="display:inline" onsubmit="return confirm('¿Seguro que desea elimimar esta persona?')">
                 @csrf
                 @method('DELETE')
                 <button type="submit">Eliminar</button>
             </form>
+            @endif
 
         </td>
     </tr>

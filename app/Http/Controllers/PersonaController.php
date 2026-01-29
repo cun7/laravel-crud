@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 //Importamos el modelo
 use App\Models\Persona;
+use App\Models\User;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PersonaController extends Controller
 {
@@ -99,6 +101,16 @@ class PersonaController extends Controller
 
     //Eliminar
     public function destroy($id){
+         //Solo admin puede eliminar
+         //if(!Auth::user()->isAdmin()){
+            //abort(403);
+        //}
+
+        $user = Auth::user();
+        if(!$user || !$user->isAdmin()){
+            abort(403);
+        }
+
         $persona = Persona::FindOrFail($id);
         //DELETE FROM personas
         $persona->delete();
