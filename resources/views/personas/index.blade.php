@@ -23,6 +23,12 @@
 {{--Botón para ir al formualrio--}}
 <a href="{{route('personas.create')}}">Nueva persona</a>
 
+{{-- Buscar personas por nombre --}}
+<form method="GET" action="{{ route('personas.index') }}">
+    <input type="text" name="txtBuscar" placeholder="Buscar por nombre" value="{{ request('buscar') }}">
+    <button>Buscar</button>
+</form>
+
 <table border="1" cellpadding="5">
     <tr>
         <th>ID</th>
@@ -85,3 +91,6 @@
 </div>
 
 @endif()
+
+{{-- Paginación pro --}}
+{{-- $personas->appends(request()->query())->links() --}}

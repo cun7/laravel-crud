@@ -14,6 +14,15 @@ class PersonaController extends Controller
         //Lista la personas
         public function index(Request $request)
         {   
+            $query = Persona::query();
+            //Buscar por nombre
+            if($request->filled('txtBuscar')){
+                $query->where('nombre', 'like', '%' . $request->txtBuscar . '%');
+            }
+
+            //Paginación por búsqueda
+            $personas = $query->orderBy('id', 'desc')->paginate(5);
+
             //Campo por el cual ordenar
             $orderBy = $request->get('order_by', 'id');
     
@@ -21,7 +30,7 @@ class PersonaController extends Controller
             $direction = $request->get('direction', 'asc');
     
             //Consulta con orden dinámico
-            $personas = Persona::orderBy($orderBy, $direction)->Paginate(5)->appends($request->all());
+            //$personas = Persona::orderBy($orderBy, $direction)->Paginate(5)->appends($request->all());
     
             //Obtenemos las personas ordenadas por nombre (A -> Z)
             //Obtiene 5 personas por página
@@ -105,8 +114,8 @@ class PersonaController extends Controller
          //if(!Auth::user()->isAdmin()){
             //abort(403);
         //}
+
         //Solo admin puede eliminar
-        
         /** @var \App\Models\User $user */
         $user = Auth::user();
         if(!$user->isAdmin()){
