@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 //Importamos el modelo
 use App\Models\Persona;
-use App\Models\User;
+//use App\Models\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -105,11 +105,19 @@ class PersonaController extends Controller
          //if(!Auth::user()->isAdmin()){
             //abort(403);
         //}
-
+        //Solo admin puede eliminar
+        
+        /** @var \App\Models\User $user */
         $user = Auth::user();
-        if(!$user || !$user->isAdmin()){
+        if(!$user->isAdmin()){
             abort(403);
         }
+
+        //Solo admin puede eliminar
+        /*$user = Auth::user();
+        if(!$user || !$user->isAdmin()){
+            abort(403);
+        }*/
 
         $persona = Persona::FindOrFail($id);
         //DELETE FROM personas

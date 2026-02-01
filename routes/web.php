@@ -19,6 +19,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+//Proteger rutas
+Route::middleware(['auth'])->group(function(){
+    Route::resource('personas', PersonaController::class);
+});
+
 //Ruta para mostrar el listado de personas
 Route::get('/personas', [PersonaController::class, 'index'])->name('personas.index');
 

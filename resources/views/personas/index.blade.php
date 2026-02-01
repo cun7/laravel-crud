@@ -42,6 +42,7 @@
             <a href="{{ route('personas.edit', $persona->id) }}">Editar</a>
 
             {{--Fromulario eliminar--}}
+            {{-- Ocultar botón, solo el admin puede verlo --}}
             @if(Auth::user()->isAdmin())
             <form action="{{ route('personas.eliminar', $persona->id) }}" method="POST" style="display:inline" onsubmit="return confirm('¿Seguro que desea elimimar esta persona?')">
                 @csrf
