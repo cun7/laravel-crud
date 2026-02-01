@@ -10,5 +10,5 @@ class Persona extends Model
     protected $table = 'personas';
 
     //Campos para insertar datos
-    protected $fillable = ['nombre', 'edad'];
+    protected $fillable = ['nombre', 'edad', 'foto'];
 }

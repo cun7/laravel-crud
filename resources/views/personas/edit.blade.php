@@ -11,7 +11,7 @@
     </div>
 @endif
 
-<form action="{{ route('personas.actualizar', $persona->id) }}" method="POST">
+<form action="{{ route('personas.actualizar', $persona->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
 
     @method('PUT') {{--Simula PUT--}}
@@ -21,6 +21,9 @@
 
     <label>Edad:</label><br>
     <input type="number" name="edad" value="{{ $persona->edad }}"><br><br>
+
+    <label>Foto</label><br>
+    <input type="text" name="txtFoto" value="{{ $persona->foto }}"><br><br>
 
 <button type="submit">Actualizar</button>
 </form>

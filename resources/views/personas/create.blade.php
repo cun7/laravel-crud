@@ -12,7 +12,7 @@
 @endif
 
 {{--Formulario que envía datos por POST--}}
-<form action="{{route('personas.guardar')}}" method="POST">
+<form action="{{route('personas.guardar')}}" method="POST" enctype="multipart/form-data">
     {{--Protección contra ataques CSRF--}}
     @csrf
 
@@ -22,7 +22,11 @@
 
     {{--Campo edad--}}
     <label>Edad:</label><br>
-    <input type="number" name="edad" value="{{ old('edad') }}"><br><br>
+    <input type="number" name="txtEdad" value="{{ old('edad') }}"><br><br>
+
+    {{-- Campo foto --}}
+    <label>Foto</label><br>
+    <input type="file" name="txtFoto"><br><br>
 
     <button type="submit">Guardar</button>
 </form>

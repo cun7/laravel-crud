@@ -34,6 +34,7 @@
         <th>ID</th>
         <th>Nombre</th>
         <th>Edad</th>
+        <th>Foto</th>
         <th>Acciones</th>
     </tr>
 
@@ -43,6 +44,11 @@
         <td>{{ $persona->id }}</td>
         <td>{{ $persona->nombre }}</td>
         <td>{{ $persona->edad }}</td>
+        <td>
+            @if($persona->foto)
+                <img src="{{ asset('fotos/'. $persona->foto) }}" width="60">
+            @endif
+        </td>
         <td>
             {{--Botón editar--}}
             <a href="{{ route('personas.edit', $persona->id) }}">Editar</a>

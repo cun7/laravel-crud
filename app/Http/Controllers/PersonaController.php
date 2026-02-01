@@ -57,13 +57,33 @@ class PersonaController extends Controller
         //Validación básica
         $request->validate([
             'nombre' => 'required|min:3',
-            'edad'   => 'required|integer|min:1'
+            'txtEdad'   => 'required|integer|min:1',
+            'txtFoto'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
+       
+        //$nombreArchivo= null;
 
+        //Verificar si el formulario envió un archivo foto
+        if($request->hasFile('txtFoto')){
+            //Crear el nombre del archivo y obtener la extensión
+            $nombreArchivo = time() . '.' .$request->txtFoto->extension();
+            //Mover el archivo foto desde el formulario hasta la carpeta fotos
+            $request->txtFoto->move(public_path('fotos'), $nombreArchivo);
+            //$persona->foto = $nombreArchivo;
+        }
+
+       /* if (!file_exists(public_path('fotos'))) {
+            mkdir(public_path('fotos'), 0777, true);
+        }
+       */
+        
         //Inserta los datos en la tabla personas
         Persona::create([
             'nombre' => $request->nombre,
-            'edad' => $request->edad
+            'edad'   => $request->txtEdad,
+            'foto'   => $nombreArchivo
+            //Verificar si esta recibiendo el nombre de la foto
+             //dd($nombreArchivo)
         ]);
 
         //Persona::create($request->all);//INSERT
@@ -131,6 +151,12 @@ class PersonaController extends Controller
         $persona = Persona::FindOrFail($id);
         //DELETE FROM personas
         $persona->delete();
+
+        //Eliminar foto
+        if($persona->foto && file_exists(public_path('fotos/' . $persona->foto))){
+            unlink(public_path('fotos/' . $persona->foto));
+        }
+        
 
         return redirect()->route('personas.index')->with('success', 'Persona eliminada correctamente');
     }
