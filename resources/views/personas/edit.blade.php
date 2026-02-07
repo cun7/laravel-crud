@@ -23,7 +23,7 @@
     <input type="number" name="edad" value="{{ $persona->edad }}"><br><br>
 
     <label>Foto</label><br>
-    <input type="text" name="txtFoto" value="{{ $persona->foto }}"><br><br>
+    <input type="file" name="txtFoto" value="{{ $persona->foto }}"><br><br>
 
 <button type="submit">Actualizar</button>
 </form>

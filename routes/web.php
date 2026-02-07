@@ -42,6 +42,13 @@ Route::put('/personas/{id}', [PersonaController::class, 'update'])->name('person
 //Ruta para elimianar una persona
 Route::delete('/personas/{id}', [PersonaController::class, 'destroy'])->name('personas.eliminar');
 
+//Ruta papelera persona
+Route::get('/personas.papelera',[PersonaController::class, 'papelera'])->name('personas.papelera');
 
+//Ruta restaurar persona
+Route::put('/personas/{id}/restaurar', [PersonaController::class, 'restaurar'])->name('personas.restaurar');
+
+//Eliminar definitivamente
+Route::delete('/personas.{id}', [PersonaController::class, 'eliminarDefinitivo'])->name('personas/eliminar');
 
 require __DIR__.'/auth.php';

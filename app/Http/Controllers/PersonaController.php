@@ -61,7 +61,7 @@ class PersonaController extends Controller
             'txtFoto'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
        
-        //$nombreArchivo= null;
+        $nombreArchivo= null;
 
         //Verificar si el formulario envió un archivo foto
         if($request->hasFile('txtFoto')){
@@ -161,7 +161,38 @@ class PersonaController extends Controller
         return redirect()->route('personas.index')->with('success', 'Persona eliminada correctamente');
     }
 
+    //Listar las personas que estan en la papelera
+    public function papelera(){
+        //onlyTrashed() lista solo eliminados
+        $personas = Persona::onlyTrashed()->paginate(5);
+        return view('personas.papelera', compact('personas'));
+        //dd($personas);
 
+        //withTrashed() Todos(activos + papelera)
+    }
+
+    //Restaurar las personas de la papelera
+    public function restaurar($id){
+        //Restore() recupera
+        Persona::onlyTrashed()->findOrFail($id)->restore();
+        return redirect()->route('personas.papelera')->with('success','Persona restaurada correctamente');
+    }
+
+    //Eliminar definitivamente
+    public function eliminarDefinitivo($id){
+        $persona = Persona::onlyTrashed()->findOrFail($id);
+        
+        //Eliminar foto si existe
+        if($persona->foto && file_exists(public_path('fotos/' . $persona->foto))){
+            unlink(public_path('fotos/' . $persona->foto));
+        }
+
+        //forceDelete() Borra definitivamente
+        $persona->forceDelete();
+       
+        return redirect()->route('personas.papelera')->with('success','Persona eliminada definitivamente');
+    }
+    
 /*
     public function guardar(Request $request)
     {
