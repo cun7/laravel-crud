@@ -19,11 +19,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-//Proteger rutas
-Route::middleware(['auth'])->group(function(){
-    Route::resource('personas', PersonaController::class);
-});
-
 //Ruta para mostrar el listado de personas
 Route::get('/personas', [PersonaController::class, 'index'])->name('personas.index');
 
@@ -39,16 +34,23 @@ Route::get('/personas.{id}.edit', [PersonaController::class, 'edit'])->name('per
 //Ruta para actualizar (guardar cambios)
 Route::put('/personas/{id}', [PersonaController::class, 'update'])->name('personas.actualizar');
 
-//Ruta para elimianar una persona
-Route::delete('/personas/{id}', [PersonaController::class, 'destroy'])->name('personas.eliminar');
+//PROTEGER RUTAS
+Route::middleware(['auth', 'admin'])->group(function(){
+    //Route::resource('personas', PersonaController::class);
+    
+    //Ruta para elimianar una persona
+    Route::delete('/personas/{id}', [PersonaController::class, 'destroy'])->name('personas.eliminar');
 
-//Ruta papelera persona
-Route::get('/personas.papelera',[PersonaController::class, 'papelera'])->name('personas.papelera');
+    //Ruta papelera persona
+    Route::get('/personas.papelera',[PersonaController::class, 'papelera'])->name('personas.papelera');
 
-//Ruta restaurar persona
-Route::put('/personas/{id}/restaurar', [PersonaController::class, 'restaurar'])->name('personas.restaurar');
+    //Ruta restaurar persona
+    Route::put('/personas/{id}/restaurar', [PersonaController::class, 'restaurar'])->name('personas.restaurar');
 
-//Eliminar definitivamente
-Route::delete('/personas.{id}', [PersonaController::class, 'eliminarDefinitivo'])->name('personas/eliminar');
+    //Eliminar definitivamente
+    Route::delete('/personas.{id}', [PersonaController::class, 'eliminarDefinitivo'])->name('personas/eliminar');
+
+});
+
 
 require __DIR__.'/auth.php';

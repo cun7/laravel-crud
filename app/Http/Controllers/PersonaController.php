@@ -139,7 +139,7 @@ class PersonaController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
         if(!$user->isAdmin()){
-            abort(403);
+            abort(403, 'No autorizaado');
         }
 
         //Solo admin puede eliminar
