@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 //Importamos el modelo
 use App\Models\Persona;
 //use App\Models\User;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PersonaController extends Controller
 {
+    //Usar AuthorizeRequests
+    use AuthorizesRequests;
+
         //Lista la personas
         public function index(Request $request)
         {   
@@ -129,7 +133,7 @@ class PersonaController extends Controller
     }
 
     //Eliminar
-    public function destroy($id){
+    public function destroyi($id){
          //Solo admin puede eliminar
          //if(!Auth::user()->isAdmin()){
             //abort(403);
@@ -172,14 +176,15 @@ class PersonaController extends Controller
     }
 
     //Restaurar las personas de la papelera
-    public function restaurar($id){
+    /*public function restaurarr($id){
         //Restore() recupera
         Persona::onlyTrashed()->findOrFail($id)->restore();
         return redirect()->route('personas.papelera')->with('success','Persona restaurada correctamente');
     }
+    */
 
     //Eliminar definitivamente
-    public function eliminarDefinitivo($id){
+   /* public function eliminarDefinitivo0($id){
         $persona = Persona::onlyTrashed()->findOrFail($id);
         
         //Eliminar foto si existe
@@ -192,6 +197,7 @@ class PersonaController extends Controller
        
         return redirect()->route('personas.papelera')->with('success','Persona eliminada definitivamente');
     }
+    */
     
 /*
     public function guardar(Request $request)
@@ -203,4 +209,30 @@ class PersonaController extends Controller
     }
 */
 
+//USAR LA POLICY 
+//Eliminar
+public function destroy(Persona $persona){
+    $this->authorize('delete', $persona);
+    $persona->delete();
+    //dd(Persona::withTrashed()->get());
+    return back()->with('success', 'Enviado a papeleraa');
+}
+
+//Eliminar definitivo
+public function eliminarDefinitivo($id){
+    $persona = Persona::withTrashed()->findOrFail($id);
+    $this->authorize('forceDelete', $persona);
+    $persona->forceDelete();
+
+    return back()->with('success', 'Eliminado definitivamnetee');
+}
+
+//Resturar
+public function restaurar($id){
+    $persona = Persona::withTrashed()->findOrFail($id);
+    $this->authorize('restore', $persona);
+    $persona->restore();
+    
+    return back()->with('success', 'Persona restauradaa');
+}
 }

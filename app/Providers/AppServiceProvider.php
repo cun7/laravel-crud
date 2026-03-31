@@ -5,6 +5,9 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 
+use App\Models\Persona;
+use App\Policies\PersonaPolicy;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -23,5 +26,11 @@ class AppServiceProvider extends ServiceProvider
         //Usar Bootstrap para la paginación
         //Paginator::useBootstrap();
         Paginator::useBootstrapFive();
+        
     }
+
+    //Registrar Policy (Laravel 11)
+    protected $policies = [
+        Persona::class => PersonaPolicy::class,
+    ];
 }

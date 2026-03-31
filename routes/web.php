@@ -39,7 +39,7 @@ Route::middleware(['auth', 'admin'])->group(function(){
     //Route::resource('personas', PersonaController::class);
     
     //Ruta para elimianar una persona
-    Route::delete('/personas/{id}', [PersonaController::class, 'destroy'])->name('personas.eliminar');
+    Route::delete('/personas/{persona}', [PersonaController::class, 'destroy'])->name('personas.eliminar');
 
     //Ruta papelera persona
     Route::get('/personas.papelera',[PersonaController::class, 'papelera'])->name('personas.papelera');

@@ -25,6 +25,11 @@
                 @csrf
                 @method('DELETE')
                 <button>Eliminar definitivamente</button>
+
+                {{-- Usar policy--}}
+                @can('forceDelete', $persona)
+                    <button>Eliminar definitivo</button>
+                @endCan
             </form> 
         </td>
     </tr>
