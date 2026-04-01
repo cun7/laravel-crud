@@ -251,7 +251,13 @@ public function dashboard(){
     //Últimas 5 personas creadas (ordenadas por ID desc)
     $ultimas = \App\Models\Persona::latest()->take(5)->get();
 
-    return view('dashboardprueba', compact('total','activos', 'eliminadoss', 'ultimas'));
+    //Datos para la gráfica (los enviamos como array)
+    $datosGrafica = [
+        'activos' => $activos,
+        'eliminados' => $eliminadoss
+    ];
+
+    return view('dashboardprueba', compact('total','activos', 'eliminadoss', 'ultimas', 'datosGrafica'));
 }
 
 
