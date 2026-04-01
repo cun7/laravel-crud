@@ -235,4 +235,24 @@ public function restaurar($id){
     
     return back()->with('success', 'Persona restauradaa');
 }
+
+//Dashboard
+public function dashboard(){
+    //Total de registros de personas  (incluye eiliminados)
+    $total = \App\Models\Persona::withTrashed()->count();
+    //dd($total);
+
+    //Solo activos (No eliminados)
+    $activos = \App\Models\Persona::count();
+
+    //Solo en la papelera
+    $eliminadoss = \App\Models\Persona::onlyTrashed()->count();
+
+    //Últimas 5 personas creadas (ordenadas por ID desc)
+    $ultimas = \App\Models\Persona::latest()->take(5)->get();
+
+    return view('dashboardprueba', compact('total','activos', 'eliminadoss', 'ultimas'));
+}
+
+
 }
