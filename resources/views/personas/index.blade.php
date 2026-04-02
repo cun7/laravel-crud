@@ -25,9 +25,16 @@
 
 {{-- Buscar personas por nombre --}}
 <form method="GET" action="{{ route('personas.index') }}">
-    <input type="text" name="txtBuscar" placeholder="Buscar por nombre" value="{{ request('buscar') }}">
+    <input type="text" name="txtBuscar" placeholder="Buscar por nombre" value="{{ request('txtBuscar') }}">
     <button>Buscar</button>
 </form>
+
+{{-- Formualrio de búsqueda 
+    <form method="GET" action="{{ route('personas.index') }}">
+        <input type="text" name="txtBuscar" placeholder="Buscar por nombre..." value="{{ $buscar }}">
+        <button>Buscar</button>
+    </form>
+--}}
 
 <table border="1" cellpadding="5">
     <tr>
@@ -67,6 +74,10 @@
     </tr>
     @endforeach
 </table>
+
+@if($personas->isEmpty())
+    <p>No se encontraron resultados.</p>
+@endif
 
 <a href="?order_by=nombre&direction=asc">Nombre ↑</a> |
 <a href="?order_by=nombre&direction=desc">Nombre ↓</a> |

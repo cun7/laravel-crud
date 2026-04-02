@@ -260,5 +260,28 @@ public function dashboard(){
     return view('dashboardprueba', compact('total','activos', 'eliminadoss', 'ultimas', 'datosGrafica'));
 }
 
+//Listar personas con buscador
+/*public function indexx(Request $request){
+    //Obtener lo que el usuario escribe en el input(name="buscar")
+    $buscar = $request->input('txtBuscar');
 
+    //Query base
+    $query = \App\Models\Persona::query();
+
+    //Si el usuario escribio algo, filtramos
+    if($buscar){
+        $query->where('nombre', 'like', '%' . $buscar . '%');
+        //Busca coincidencias: Ejemplo "ju" -> Juan, Julia, etc.
+    }
+
+    //Paginación (5 por página)
+    $personas = $query->paginate(5);
+
+    //Mantener el texto en la url al cambiar de página
+    $personas->appends(['txtBuscar' => $buscar]);
+
+    //Enviar datos a la vista
+    return view('personas.index', compact('personas', 'buscar'));
+
+}*/
 }
