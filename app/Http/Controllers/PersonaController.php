@@ -284,4 +284,18 @@ public function dashboard(){
     return view('personas.index', compact('personas', 'buscar'));
 
 }*/
+
+//Búsqueda en tiempo real (AJAX)
+public function buscarAjax(Request $request){
+    //Obtener texto que escribe el usuario
+    $buscar = $request->input('buscar');
+
+    //Buscar en la base de datos
+    $personas = \App\Models\Persona::where('nombre', 'like', '%' . $buscar . '%')->latest()->take(10)->get();
+
+    //Devolver datos en formato JSON (para JS)
+    return response()->json($personas);
+}
+
+
 }

@@ -55,3 +55,8 @@ Route::middleware(['auth', 'admin'])->group(function(){
 //Ruta al dashboard (solo usuarios logueados)
 Route::get('/dashboard', [PersonaController::class, 'dashboard'])->name('dashboard');
 require __DIR__.'/auth.php';
+
+//Ruta para búsqueda en tiempo real
+Route::get('/buscar-personas', [PersonaController::class, 'buscarAjax'])->name('personas.buscar');
+
+

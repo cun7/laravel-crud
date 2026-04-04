@@ -25,7 +25,7 @@
 
 {{-- Buscar personas por nombre --}}
 <form method="GET" action="{{ route('personas.index') }}">
-    <input type="text" name="txtBuscar" placeholder="Buscar por nombre" value="{{ request('txtBuscar') }}">
+    <input type="text" id="idBuscar" name="txtBuscar" placeholder="Buscar por nombre" value="{{ request('txtBuscar') }}">
     <button>Buscar</button>
 </form>
 
@@ -79,6 +79,9 @@
     <p>No se encontraron resultados.</p>
 @endif
 
+<div id="idResultados"></div>
+
+
 <a href="?order_by=nombre&direction=asc">Nombre ↑</a> |
 <a href="?order_by=nombre&direction=desc">Nombre ↓</a> |
 <a href="?order_by=edad&direction=asc">Edad ↑</a> |
@@ -111,3 +114,65 @@
 
 {{-- Paginación pro --}}
 {{-- $personas->appends(request()->query())->links() --}}
+
+<script>
+    //Obtener el input
+    const input = document.getElementById('idBuscar');
+
+    //Contenedor donde mostraremos resultados
+    const resultados = document.getElementById('idResultados');
+
+    //Escuchar cuando el usuario escribe
+    input.addEventListener('keyup', function(){
+        //Obtener lo que escribe
+        let texto = this.value;
+
+        //Hacer petición AJAX a Laravel
+        fetch(`/buscar-personas?buscar=${texto}`)
+            .then(response =>response.json()) //convertir a JSON
+            .then(data => {
+                //Limpiar resultdos anteriores
+                resultados.innerHTML="";
+
+                //Recorrer resultados
+                data.forEach(persona => {
+                    //Crear HTML dinámico
+                    let item = `
+                        <p>${persona.nombre} - ${persona.edad}</p>
+                    `;
+
+                    //Insertar en el div
+                    resultados.innerHTML += item;
+                });
+
+                //Si no hay resultados
+                if(data.length === 0){
+                    resultados.innerHTML = "<p>No hay resultados</p>";
+                }
+                
+            });
+        
+    });
+
+//Para que no haga muchas peticiones
+let timeout;
+
+input.addEventListener('keyup', function(){
+    clearTimeout(timeout);
+
+    timeout = setTimeout(() => {
+        let texto = this.value;
+
+        fetch(`/buscar-personas?buscar=${texto}`)
+        .then(res => res.json())
+        .then(data => {
+            resultados.innerHTML = "";
+
+            data.forEach(p => {
+                resultados.innerHTML += `<p>${p.nombre} - ${p.edad}</p>`;
+            });
+        });
+    }, 300); //Espera 300ms
+});
+
+</script>
