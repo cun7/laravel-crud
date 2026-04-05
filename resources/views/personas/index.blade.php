@@ -36,6 +36,9 @@
     </form>
 --}}
 
+{{-- Ruta para descargar PDF --}}
+<a href="{{ route('personas.pdf') }}">Descargar PDF</a>
+
 <table border="1" cellpadding="5">
     <tr>
         <th>ID</th>

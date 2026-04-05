@@ -59,4 +59,5 @@ require __DIR__.'/auth.php';
 //Ruta para búsqueda en tiempo real
 Route::get('/buscar-personas', [PersonaController::class, 'buscarAjax'])->name('personas.buscar');
 
-
+//Ruta para descargar PDF
+Route::get('exportarPDF', [PersonaController::class, 'exportarPDF'])->name('personas.pdf');

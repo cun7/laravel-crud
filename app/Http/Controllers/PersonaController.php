@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Persona;
 //use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -295,6 +296,20 @@ public function buscarAjax(Request $request){
 
     //Devolver datos en formato JSON (para JS)
     return response()->json($personas);
+}
+
+//PDF
+//Exportar a PDF
+public function exportarPDF(){
+    //Obtener todas las personas (solo activas)
+    $personas = \App\Models\Persona::all();
+
+    //Cargar vista y pasar datos
+    $pdf = Pdf::loadView('personas.pdf', compact('personas'));
+
+    //Descargar archivo
+    return $pdf->download('personas.pdf');
+    //return view('personas.pdf', compact('personas'));
 }
 
 
